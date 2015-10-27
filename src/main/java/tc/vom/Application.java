@@ -3,7 +3,6 @@ package tc.vom;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.cfg.naming.ImprovedNamingStrategyDelegator;
 import org.hibernate.dialect.H2Dialect;
 import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
 import org.hibernate.jpa.criteria.expression.LiteralExpression;
@@ -119,10 +118,6 @@ public class Application {
         jpaProperties.put(AvailableSettings.HBM2DDL_AUTO, "update");
         jpaProperties.put(AvailableSettings.SHOW_SQL, "true");
         jpaProperties.put(AvailableSettings.FORMAT_SQL, "true");
-        jpaProperties.put(AvailableSettings.USE_NEW_ID_GENERATOR_MAPPINGS, "true");
-        jpaProperties.put(AvailableSettings.GLOBALLY_QUOTED_IDENTIFIERS, "true");
-        jpaProperties.put(org.hibernate.jpa.AvailableSettings.NAMING_STRATEGY_DELEGATOR,
-                ImprovedNamingStrategyDelegator.class.getName());
         entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
 
         // No need for persistance.xml
