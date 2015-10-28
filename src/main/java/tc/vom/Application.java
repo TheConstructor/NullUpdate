@@ -31,9 +31,6 @@ import javax.persistence.criteria.Root;
 import java.beans.PropertyVetoException;
 import java.util.HashMap;
 
-/**
- * Created by matthias on 13.03.15.
- */
 @SpringBootApplication
 public class Application {
 
@@ -55,8 +52,14 @@ public class Application {
                         entity.setValue("Before update");
                         LOG.info("About to persist entity");
                         entity = entityManager.merge(entity);
-                        LOG.info("Value after persisting: " + entity.getValue());
                         id = entity.getId();
+                    }
+
+                    {
+                        Entity entity = entityManager.find(Entity.class, id);
+                        entityManager.refresh(entity);
+                        LOG.info("Value after persisting: " + entity.getValue());
+                        // Will be the value my UserType provides
                     }
 
                     {
@@ -75,6 +78,12 @@ public class Application {
                         entityManager.refresh(entity);
                         LOG.info("Value after 1. update: " + entity.getValue());
                         // Will be null
+                        if (entity.getValue() == null) {
+                            LOG.error(
+                                    "UserType was not called to determine correct persistence-representation of null");
+                        } else {
+                            LOG.info("UserType was called to determine correct persistence-representation of null");
+                        }
                     }
 
                     {
@@ -93,6 +102,12 @@ public class Application {
                         entityManager.refresh(entity);
                         LOG.info("Value after 2. update: " + entity.getValue());
                         // Will be the value my UserType provides
+                        if (entity.getValue() == null) {
+                            LOG.error(
+                                    "UserType was not called to determine correct persistence-representation of null");
+                        } else {
+                            LOG.info("UserType was called to determine correct persistence-representation of null");
+                        }
                     }
 
                     return null;
